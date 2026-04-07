@@ -8,6 +8,9 @@ router.post('/', async (req, res) => {
     const { username, password } = req.body;
 
     try {
+        if (!username || !password) {
+            return res.status(400).send('Vui long dien day du thong tin');
+        }
         const [rows] = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
 
         const user = rows[0];
