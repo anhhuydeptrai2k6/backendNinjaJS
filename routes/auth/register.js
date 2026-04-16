@@ -11,11 +11,13 @@ router.post('/', async (req, res) => {
         if (!username || !password) {
             return res.status(400).send('Vui long dien day du thong tin');
         }
-        const [rows] = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
+        const [rows] = await pool.query('SELECT * FROM accounts WHERE username = ?', [username]);
         if (rows.length > 0) {
             return res.status(400).send('Ten dang nhap da ton tai');
         }
-        await pool.query('INSERT INTO users (username, password, x, y, mapId, aoId, quanId) VALUES (?, ?, 300, 400, "Tone", "ao_0x", "quan_0x")', [username, password]);
+        const[result] = await pool.query('INSERT INTO accounts (username, password) VALUES (?, ?);', [username, password]);
+        const accountId = result.insertId;
+        await pool.query('INSERT INTO players (account_id, x, y, mapId, aoId, quanId) VALUES (?, 300, 400, "Tone", "ao_0x", "quan_0x");', [accountId]);
         res.status(201).send('Dang ky thanh cong');
     } catch (error) {
         console.error(error);

@@ -5,12 +5,12 @@ const pool = require('../../db');
 router.use(express.json());
 
 router.put('/', async (req, res) => {
-    const {username, x, y, mapId, aoId, quanId, yen, xu, luong, thuCuoiId} = req.body;
+    const {id, x, y, mapId, aoId, quanId, yen, xu, luong, thuCuoiId} = req.body;
 
-    if (!username) return res.status(400).send('Ten nguoi dung khong duoc de trong');
+    if (!id) return res.status(400).send('Id nguoi dung khong duoc de trong');
 
     try {
-        const [results] = await pool.query('UPDATE users SET x = ?, y = ?, mapId = ?, aoId = ?, quanId = ?, yen = ?, xu = ?, luong = ?, thuCuoiId = ? WHERE username = ?', [x, y, mapId, aoId, quanId, yen, xu, luong, thuCuoiId, username]);
+        const [results] = await pool.query('UPDATE players SET x=?, y=?, mapId=?, aoId=?, quanId=?, yen=?, xu=?, luong=?, thuCuoiId=? WHERE account_id = ?', [x, y, mapId, aoId, quanId, yen, xu, luong, thuCuoiId, id]);
         if (results.affectedRows === 0) {
             return res.status(404).send('Nguoi dung khong ton tai');
         }

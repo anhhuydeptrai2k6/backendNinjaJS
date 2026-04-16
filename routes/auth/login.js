@@ -11,7 +11,7 @@ router.post('/', async (req, res) => {
         if (!username || !password) {
             return res.status(400).send('Vui long dien day du thong tin');
         }
-        const [rows] = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
+        const [rows] = await pool.query('SELECT a.id, a.username, a.password, p.x, p.y, p.mapId, p.aoId, p.quanId, p.thuCuoiId, p.yen, p.xu, p.luong FROM accounts a JOIN players p ON a.id = p.account_id WHERE a.username = ?', [username]);
 
         const user = rows[0];
         if (!user) {
