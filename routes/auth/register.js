@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
         }
         const[result] = await pool.query('INSERT INTO accounts (username, password) VALUES (?, ?);', [username, password]);
         const accountId = result.insertId;
-        await pool.query('INSERT INTO players (account_id, x, y, mapId, aoId, quanId) VALUES (?, 300, 400, "Tone", "ao_0x", "quan_0x");', [accountId]);
+        await pool.query('INSERT INTO players (account_id, x, y, mapId, level) VALUES (?, 300, 400, "Tone", 1);', [accountId]);
         res.status(201).send('Dang ky thanh cong');
     } catch (error) {
         console.error(error);
