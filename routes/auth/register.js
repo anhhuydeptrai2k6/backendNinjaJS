@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.use(express.json());
 
-router.post('/', async (req, res) => {
+router.post('/register', async (req, res) => {
     const { username, password } = req.body;
 
     try {
@@ -15,9 +15,7 @@ router.post('/', async (req, res) => {
         if (rows.length > 0) {
             return res.status(400).send('Ten dang nhap da ton tai');
         }
-        const[result] = await pool.query('INSERT INTO accounts (username, password) VALUES (?, ?);', [username, password]);
-        const accountId = result.insertId;
-        await pool.query('INSERT INTO players (account_id, x, y, mapId, level) VALUES (?, 300, 400, "Tone", 1);', [accountId]);
+        await pool.query('INSERT INTO accounts (username, password) VALUES (?, ?);', [username, password]);
         res.status(201).send('Dang ky thanh cong');
     } catch (error) {
         console.error(error);

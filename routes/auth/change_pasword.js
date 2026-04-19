@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.use(express.json());
 
-router.put('/', async (req, res) => {
+router.put('/change-password', async (req, res) => {
     const { username, oldPassword, newPassword } = req.body;
 
     try {
