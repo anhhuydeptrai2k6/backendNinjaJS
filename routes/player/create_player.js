@@ -12,16 +12,26 @@ router.post('/create-character', async (req, res) => {
             return res.status(400).send('Thieu du lieu');
         }
 
-        const [rows] = await pool.query('SELECT COUNT(*) as total FROM players WHERE account_id = ?', [accountId]);
+        const [countRows] = await pool.query(
+            'SELECT COUNT(*) as total FROM players WHERE account_id = ?',
+            [accountId]
+        );
 
-        if (rows[0].total >= 3) {
+        if (countRows[0].total >= 3) {
             return res.status(400).send('Da dat gioi han 3 nhan vat');
         }
 
-        await pool.query('INSERT INTO players (account_id, name, x, y, mapId, level, gioiTinh, kieuToc) VALUES (?, ?, 300, 400, "Tone", 1, ?, ?)', [accountId, name, gioiTinh, kieuToc]
+        const [result] = await pool.query(
+            'INSERT INTO players (account_id, name, x, y, mapId, level, gioiTinh, kieuToc) VALUES (?, ?, 300, 400, "Tone", 1, ?, ?)',
+            [accountId, name, gioiTinh, kieuToc]
         );
 
-        res.status(201).send('Tao nhan vat thanh cong');
+        const [playerRows] = await pool.query(
+            'SELECT id, name, level, gioiTinh, kieuToc, aoId, quanId FROM players WHERE id = ?',
+            [result.insertId]
+        );
+
+        res.status(201).json(playerRows[0]);
 
     } catch (error) {
         if (error.code === 'ER_DUP_ENTRY') {
