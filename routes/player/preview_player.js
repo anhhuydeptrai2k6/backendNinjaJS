@@ -4,11 +4,11 @@ const router = express.Router();
 
 router.use(express.json());
 
-router.get('/preview-player', async (req, res) => {
+router.post('/preview-player', async (req, res) => {
     const { characterIds } = req.body;
 
     try {
-        if (!characterIds || characterIds.length === 0) {
+        if (!characterIds) {
             return res.status(400).send('Empty character list');
         }
 

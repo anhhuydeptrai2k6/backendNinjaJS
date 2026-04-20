@@ -18,7 +18,7 @@ app.use('/auth', changePasswordRoutes);
 
 app.use('/player', createRoutes);
 app.use('/player', getPlayerRoute);
-app.use('player', getPreviewRoute);
+app.use('/player', getPreviewRoute);
 
 app.use('/game', saveRoutes);
  
