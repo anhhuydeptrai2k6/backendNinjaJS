@@ -16,7 +16,7 @@ router.post('/create-character', async (req, res) => {
             'SELECT COUNT(*) as total FROM players WHERE account_id = ?',
             [accountId]
         );
-
+ 
         if (countRows[0].total >= 3) {
             return res.status(400).send('Da dat gioi han 3 nhan vat');
         }
