@@ -25,7 +25,7 @@ router.post('/preview-player', async (req, res) => {
         return res.json(rows);
 
     } catch (error) {
-        console.error(error);
+        console.error(error) ;
         return res.status(500).send('Server error');
     }
 });
